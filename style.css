@@ -1,0 +1,49 @@
+let students = [];
+
+function addStudent() {
+    let name = document.getElementById("studentName").value;
+
+    if (name === "") {
+        alert("Enter student name");
+        return;
+    }
+
+    students.push({ name: name, present: false });
+    document.getElementById("studentName").value = "";
+    displayStudents();
+}
+
+function toggleAttendance(index) {
+    students[index].present = !students[index].present;
+    displayStudents();
+}
+
+function deleteStudent(index) {
+    students.splice(index, 1);
+    displayStudents();
+}
+
+function displayStudents() {
+    let list = document.getElementById("studentList");
+    list.innerHTML = "";
+
+    students.forEach((student, index) => {
+        let row = `
+            <tr>
+                <td>${student.name}</td>
+                <td class="${student.present ? 'present' : 'absent'}">
+                    ${student.present ? 'Present' : 'Absent'}
+                </td>
+                <td>
+                    <button onclick="toggleAttendance(${index})">
+                        Mark ${student.present ? 'Absent' : 'Present'}
+                    </button>
+                    <button onclick="deleteStudent(${index})" style="background:red;">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        `;
+        list.innerHTML += row;
+    });
+}
